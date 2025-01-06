@@ -1,7 +1,7 @@
 corpusname = input("corpus name (without extension): ")
 
 try:
-    exec(f"import {corpusname}data as data")
+    exec(f"import corporadata.{corpusname}data as data")
 except:
     raise Exception(f"The data for {corpusname} has not been generated yet, refer to README for information on how to generate data.")
 print(f"{corpusname} loaded as corpora of choice")
@@ -14,10 +14,10 @@ class letter:
 nky = 'nokeyishere'
 
 curr_layout = {
-    {'v' : letter(0, 0)}, {'l' : letter(0, 1)}, {'n' : letter(0, 2)}, {'d' : letter(0, 3)}, {'k' : letter(0, 3)}, {'j' : letter(0, 7)}, {'w' : letter(0, 7)}, {'o' : letter(0, 6)}, {'u' : letter(0, 5)}, {',' : letter(0, 4)},
-    {'t' : letter(1, 0)}, {'s' : letter(1, 1)}, {'r' : letter(1, 2)}, {'h' : letter(1, 3)}, {'f' : letter(1, 3)}, {'g' : letter(1, 7)}, {'c' : letter(1, 7)}, {'a' : letter(1, 6)}, {'e' : letter(1, 5)}, {'i' : letter(1, 4)},
-    {'z' : letter(2, 1)}, {'x' : letter(2, 2)}, {'p' : letter(2, 3)}, {'b' : letter(2, 3)}, {'\'' : letter(2, 3)}, {'m' : letter(2, 7)}, {'y' : letter(2, 7)}, {'q' : letter(2, 6)}, {'/' : letter(2, 5)}, {'.' : letter(2, 4)},
-    {' ' : letter(-2, -2)}
+    'v' : letter(0, 0), 'l' : letter(0, 1), 'n' : letter(0, 2), 'd' : letter(0, 3), 'k' : letter(0, 3), 'j' : letter(0, 7), 'w' : letter(0, 7), 'o' : letter(0, 6), 'u' : letter(0, 5), ',' : letter(0, 4),
+    't' : letter(1, 0), 's' : letter(1, 1), 'r' : letter(1, 2), 'h' : letter(1, 3), 'f' : letter(1, 3), 'g' : letter(1, 7), 'c' : letter(1, 7), 'a' : letter(1, 6), 'e' : letter(1, 5), 'i' : letter(1, 4), '\n' : letter(1, 4),
+    'z' : letter(2, 1), 'x' : letter(2, 2), 'p' : letter(2, 3), 'b' : letter(2, 3), '\'' : letter(2, 3), 'm' : letter(2, 7), 'y' : letter(2, 7), 'q' : letter(2, 6), '/' : letter(2, 5), '.' : letter(2, 4),
+    ' ' : letter(-2, -2)
 }
 
 usfb = 0
@@ -48,21 +48,21 @@ for bigram in data.bigram_freqs.keys():
             uusfb += data.bigram_freqs[bigram]
             uusfb_list += [[bigram, data.bigram_freqs[bigram]]]
     if abs(curr_layout[bigram[0]].row - curr_layout[bigram[1]].row) == 2 and abs(curr_layout[bigram[0]].finger - curr_layout[bigram[1]].finger) == 1:
-        if curr_layout[bigram[0]] > curr_layout[bigram[1]]:
+        if curr_layout[bigram[0]].finger > curr_layout[bigram[1]].finger:
             infullscissor += data.bigram_freqs[bigram]
             infullscissor_list += [[bigram, data.bigram_freqs[bigram]]]
         else:
             outfullscissor += data.bigram_freqs[bigram]
             outfullscissor_list += [[bigram, data.bigram_freqs[bigram]]]
     if abs(curr_layout[bigram[0]].row - curr_layout[bigram[1]].row) == 1 and abs(curr_layout[bigram[0]].finger - curr_layout[bigram[1]].finger) == 1:
-        if curr_layout[bigram[0]] > curr_layout[bigram[1]]:
+        if curr_layout[bigram[0]].finger > curr_layout[bigram[1]].finger:
             inhalfscissor += data.bigram_freqs[bigram]
             inhalfscissor_list += [[bigram, data.bigram_freqs[bigram]]]
         else:
             outhalfscissor += data.bigram_freqs[bigram]
             outhalfscissor_list += [[bigram, data.bigram_freqs[bigram]]]
     if curr_layout[bigram[0]].row == curr_layout[bigram[1]].row and bigram[0] != bigram[1]:
-        if curr_layout[bigram[0]] > curr_layout[bigram[1]]:
+        if curr_layout[bigram[0]].finger > curr_layout[bigram[1]].finger:
             inroll += data.bigram_freqs[bigram]
             inroll_list += [[bigram, data.bigram_freqs[bigram]]]
         else:
@@ -92,3 +92,11 @@ roll_list = inroll_list + outroll_list
 inroll_list.sort(reverse = True)
 outroll_list.sort(reverse = True)
 roll_list.sort(reverse = True)
+
+print(f"""
+sfb = {round(sfb * 100, 2)}% (2u: {round(uusfb * 100, 2)}%)
+fsb = {round(fullscissor * 100, 2)}% (In | Out: {round(infullscissor * 100, 2)}% | {round(outfullscissor * 100, 2)}%)
+hsb = {round(halfscissor * 100, 2)}% (In | Out: {round(inhalfscissor * 100, 2)}% | {round(outhalfscissor * 100, 2)}%)
+rol = {round(roll * 100, 2)}% (In | Out: {round(inroll * 100, 2)}% | {round(outroll * 100, 2)}%)
+""")
+print(sfb_list)
