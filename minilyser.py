@@ -84,7 +84,7 @@ unaccounted_bigram = 0
 unaccounted_bigram_list = []
 
 for bigram in data.bigram_freqs.keys():
-    if not all(x in 'abcdefghijklmnopqrstuvwxyz' for x in bigram) or not filter_alpha:
+    if (not all(x in 'abcdefghijklmnopqrstuvwxyz' for x in bigram)) and filter_alpha:
         continue
     try:
         bigram = bigram.lower()
@@ -178,7 +178,7 @@ unaccounted_trigram = 0
 unaccounted_trigram_list = []
 
 for trigram in data.trigram_freqs.keys():
-    if not all(x in 'abcdefghijklmnopqrstuvwxyz' for x in trigram) or not filter_alpha:
+    if (not all(x in 'abcdefghijklmnopqrstuvwxyz' for x in trigram)) and filter_alpha:
         continue
     try:
         trigram = trigram.lower()
