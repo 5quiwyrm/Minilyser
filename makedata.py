@@ -1,11 +1,29 @@
 inqr = input("corpus name (without extension): ")
 
 try:
-    corpus_file = open(f"corpora\\{inqr}.txt", 'r', encoding = 'utf8')
+    corpus_file = open(f"corpora\\{inqr}.txt", 'r', encoding = 'u16')
 except:
     raise Exception(f"There is no corpus in the corpora directory named {inqr}.txt!")
 
-corpus = corpus_file.read()
+def unshift(inpt: str):
+    ret = ''
+    for c in inpt:
+        if c in '`1234567890-=vlndkjwou,[]\\tsrhfgcaei;\nzxpb\'myq/':
+            ret += c
+        else:
+            try:
+                ret += '`1234567890-=vlndkjwou,[]\\tsrhfgcaei;\nzxpb\'myq/'['~!@#$%^&*()_+VLNDKJWOU<{}|TSRHFGCAEI:ZXPB"MYQ?>'.index(c)]
+            except:
+                pass
+    return ret
+
+try:
+    read = corpus_file.read()
+except:
+    corpus_file = open(f"corpora\\{inqr}.txt", 'r', encoding = 'u8')
+    read = corpus_file.read()
+
+corpus = unshift(read)
 corpus_file.close()
 
 unigram_freqs = {}
@@ -43,7 +61,7 @@ for i in range(len(corpus) - 2):
 for trigram in trigram_freqs.keys():
     trigram_freqs[trigram] /= (len(corpus) - 2)
 
-corpusdatafile = open(f"corporadata\\{inqr}data.py", 'w')
+corpusdatafile = open(f"corporadata\\{inqr}data.py", 'w', encoding = 'utf-8')
 corpusdatafile.write("unigram_freqs = " + str(unigram_freqs) + '\n')
 corpusdatafile.write("bigram_freqs = " + str(bigram_freqs) + '\n')
 corpusdatafile.write("trigram_freqs = " + str(trigram_freqs) + '\n')
