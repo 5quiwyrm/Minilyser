@@ -223,8 +223,6 @@ rol = {round(roll * 100, 2)}% (In | Out: {round(inroll * 100, 2)}% | {round(outr
 3rol = {round(threeroll * 100, 2)}% (In | Out: {round(inthreeroll * 100, 2)}% | {round(outthreeroll * 100, 2)}%)
 """)
 
-print(threeroll_list)
-
 if verbosity == 1:
     print("Top 10 sfb:")
     for sfb_bigram in sfb_list[slice(10)]:
