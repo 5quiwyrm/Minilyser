@@ -34,17 +34,14 @@ for bigram in bigram_freqs.keys():
     bigram_freqs[bigram] /= nonspacebigrams
 
 trigram_freqs = {}
-nonspacetrigrams = 0
 for i in range(len(corpus) - 2):
     trigram = corpus[i : i + 3]
     if trigram in trigram_freqs.keys():
         trigram_freqs[trigram] += 1
     else:
         trigram_freqs.update({trigram : 1})
-    if all(c.lower() in 'abcdefghijklmnopqrstuvwxyz' for c in trigram):
-        nonspacetrigrams += 1
 for trigram in trigram_freqs.keys():
-    trigram_freqs[trigram] /= nonspacetrigrams
+    trigram_freqs[trigram] /= (len(corpus) - 2)
 
 corpusdatafile = open(f"corporadata\\{inqr}data.py", 'w')
 corpusdatafile.write("unigram_freqs = " + str(unigram_freqs) + '\n')
